@@ -4,13 +4,15 @@ DATA := ../falcon-challenge/data
 TASKS ?= h1 m1 m2
 AUTHORS ?= Qi Ding Ng
 
-.PHONY: data cache overlap select main ablation budget dose baselines stats tables figures tikz strip theory macs docx audit manifest all
+analysis: data cache overlap select main ablation budget dose baselines stats tables figures theory macs
+
+.PHONY: analysis data cache overlap select main ablation budget dose baselines stats tables figures tikz strip theory macs docx audit manifest all
 
 data:
 	mkdir -p $(DATA)
 	cd $(DATA) && for id in 000954 000941 000953; do $(abspath $(DANDI)) download --existing skip DANDI:$$id; done
 
-cache:
+cache: data
 	$(PY) -c "import sys; sys.path.insert(0, 'code'); import data; [data.build_cache(t) for t in sys.argv[1:]]" $(TASKS)
 
 overlap: data

@@ -40,12 +40,9 @@ def profile(c):
         total = counter.total()
         head = FlopCountAnalysis(model.readout, torch.randn(1, BINS, model.features)).unsupported_ops_warnings(False).total()
     analytic = backbone_macs(model)
-    passes = model.refine.steps.shape[0] if c.refinement else 1
-    extra = (passes - 1) * 3 * model.features * c.refine_width if c.refinement else 0
     return dict(profiled_total_per_bin=total / BINS, profiled_head_per_bin=head / BINS,
                 profiled_encode_per_bin=(total - head) / BINS,
-                analytic_encode=analytic["encode"], corrected_encode=analytic["encode"] + extra,
-                ratio_corrected=(total - head) / BINS / (analytic["encode"] + extra), analytic_head=analytic["head"],
+                analytic_encode=analytic["encode"], analytic_head=analytic["head"],
                 ratio_encode=(total - head) / BINS / analytic["encode"],
                 ratio_total=total / BINS / (analytic["encode"] + analytic["head"]),
                 parameters=model.parameter_count(), features=model.features)
@@ -123,21 +120,17 @@ def timing(task="h1"):
     gm.adapt(s)
     seconds = min(seconds, time.perf_counter() - t)
     forward = sum(backbone_macs(model).values())
-    passes = model.refine.steps.shape[0]
-    corrected = forward + (passes - 1) * 3 * model.features * c.refine_width
     processed = len(windows([s], c, limit=s.fit_end)["starts"]) * c.window
     return dict(task=task, prefix_bins=N, fit_bins=used, ridge=ridge,
                 full_finetune_epoch=dict(seconds=seconds, engine_macs=int(macs), forward_macs_per_bin=forward,
-                                         processed_bins=processed, formula_macs=int(3 * 1 * forward * processed),
-                                         corrected_forward_macs_per_bin=corrected,
-                                         corrected_formula_macs=int(3 * 1 * corrected * processed)))
+                                         processed_bins=processed, formula_macs=int(3 * 1 * forward * processed)))
 
 
 def table(report):
-    lines = ["| task | variant | encode/bin analytic | encode/bin profiled | ratio | ratio with 3 refinement passes | head/bin | params |", "|---|---|---|---|---|---|---|---|"]
+    lines = ["| task | variant | encode/bin analytic | encode/bin profiled | ratio | head/bin | params |", "|---|---|---|---|---|---|---|"]
     for t, vs in report["backbone"].items():
         for v, r in vs.items():
-            lines.append(f"| {t} | {v} | {r['analytic_encode']:,} | {r['profiled_encode_per_bin']:,.0f} | {r['ratio_encode']:.4f} | {r['ratio_corrected']:.4f} | {r['analytic_head']:,} | {r['parameters']:,} |")
+            lines.append(f"| {t} | {v} | {r['analytic_encode']:,} | {r['profiled_encode_per_bin']:,.0f} | {r['ratio_encode']:.4f} | {r['analytic_head']:,} | {r['parameters']:,} |")
     lines += ["", "| task | kind | d | engine MACs | closed-form MACs | match |", "|---|---|---|---|---|---|"]
     for t, rows in report["ridge_check"].items():
         for r in rows:
@@ -148,7 +141,7 @@ def table(report):
     for r in tm["ridge"]:
         lines.append(f"| ridge step | {r['d']} | {r['seconds']:.3f} | {r['macs']:,} |")
     g = tm["full_finetune_epoch"]
-    lines.append(f"| full fine-tune epoch | - | {g['seconds']:.3f} | {g['engine_macs']:,} (3*E*N_proc*F = {g['formula_macs']:,}; with all refinement passes {g['corrected_formula_macs']:,}) |")
+    lines.append(f"| full fine-tune epoch | - | {g['seconds']:.3f} | {g['engine_macs']:,} (3*E*N_proc*F = {g['formula_macs']:,}) |")
     return "\n".join(lines) + "\n"
 
 

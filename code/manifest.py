@@ -3,8 +3,8 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-INCLUDE = ("code", "results", "paper")
-SKIP_DIRS = {"__pycache__", "checkpoints", "cache", "template_unpacked"}
+INCLUDE = ("code", "results", "submission", "environment", "Makefile", "README.md", "LICENSE")
+SKIP_DIRS = {"__pycache__", "checkpoints", "cache", "template_unpacked", "stats_prelim", "artifacts"}
 SKIP_SUFFIX = {".pt", ".pth", ".ckpt", ".pyc", ".npz", ".nwb", ".tmp", ".aux", ".log", ".out", ".toc"}
 OUT = ROOT / "MANIFEST.sha256"
 
@@ -19,7 +19,8 @@ def digest(path):
 
 def files():
     for top in INCLUDE:
-        for p in sorted((ROOT / top).rglob("*")):
+        base = ROOT / top
+        for p in [base] if base.is_file() else sorted(base.rglob("*")):
             rel = p.relative_to(ROOT)
             if p.is_file() and not SKIP_DIRS & set(rel.parts) and p.suffix not in SKIP_SUFFIX:
                 yield rel

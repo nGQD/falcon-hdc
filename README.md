@@ -10,10 +10,10 @@ NVIDIA RTX 4080 Laptop GPU, 12 GB. Python 3.10, torch 2.5.1 (CUDA 12.4). Pinned 
 
     python3.10 -m venv ../.venv
     ../.venv/bin/python -m pip install -r environment/requirements.lock
-    git clone https://github.com/snel-repo/falcon-challenge ../falcon-challenge
-    ../.venv/bin/python -m pip install -e ../falcon-challenge
+    ../.venv/bin/python -m pip install falcon-challenge==1.0.2
+    mkdir -p ../falcon-challenge/data
 
-The loader is the upstream `falcon_challenge` package, version 1.0.2. `code/data.py` imports it from `../falcon-challenge`. The docx steps use the system `python3` with `python-docx`; `code/strip_metadata.py` uses `pikepdf` or `qpdf` for PDF files.
+The loader is the `falcon_challenge` package, version 1.0.2 from PyPI; data live in `../falcon-challenge/data`. The manuscript steps (tikz, strip, docx, audit, manifest) need the private `paper/` sources and system tools (`pandoc`, LibreOffice `soffice`, poppler `pdftoppm`, `qpdf`, PyYAML, lxml, Pillow); they are not needed to reproduce the results.
 
 ## Data
 
@@ -21,9 +21,9 @@ NWB files are downloaded from DANDI into `../falcon-challenge/data/<dandiset>`: 
 
 ## Reproduce
 
-    make all
+    make analysis
 
-Stages run in order and skip result files that already exist. Set `TASKS="h1"` to restrict tasks and `PY=` to choose the interpreter.
+`make analysis` runs every stage that produces results; `make all` also renders the manuscript. Stages run in order and skip result files that already exist. Set `TASKS="h1"` to restrict tasks and `PY=` to choose the interpreter.
 
 | Target | Script | Produces | Runtime |
 | --- | --- | --- | --- |
@@ -46,7 +46,7 @@ Stages run in order and skip result files that already exist. Set `TASKS="h1"` t
 | audit | `code/audit_docx.py` | template and consistency report | seconds |
 | manifest | `code/manifest.py` | `MANIFEST.sha256` | seconds |
 
-Runtimes are for the hardware above. Manuscript sources (`paper/`) are not part of this repository; the figures, tikz, docx and audit stages write into `paper/`. Pretrained backbone checkpoints (`results/checkpoints`) and the EvalAI decoder artifacts (`submission/artifacts`) are in the v1.0 release archive; extract it in the repository root.
+Runtimes are for the hardware above. Manuscript sources (`paper/`) are not part of this repository; the figures, tikz, docx and audit stages write into `paper/`. Pretrained backbone checkpoints (`results/checkpoints`) and the EvalAI decoder artifacts (`submission/artifacts`) are in the v1.0 release archive (https://github.com/nGQD/falcon-hdc/releases/tag/v1.0); extract it in the repository root.
 
 ## License
 
