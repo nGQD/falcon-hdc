@@ -1,0 +1,3 @@
+- H1: FT-full/HDC = 23.1x, FT-readout/HDC = 8.7x, EWC/HDC = 24.3x, Replay/HDC = 46.2x; HDC/Closed form = 9.7x
+- M1: FT-full/HDC = 12.0x, FT-readout/HDC = 4.7x, EWC/HDC = 12.6x, Replay/HDC = 23.9x; HDC/Closed form = 9.7x
+- M2: FT-full/HDC = 14.3x, FT-readout/HDC = 5.6x, EWC/HDC = 15.1x, Replay/HDC = 28.7x; HDC/Closed form = 15.2x

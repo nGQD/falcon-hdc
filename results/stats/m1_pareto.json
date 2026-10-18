@@ -1,0 +1,71 @@
+{
+ "objectives": {
+  "acc": "max",
+  "bwt": "max",
+  "adapt_macs": "min"
+ },
+ "non_dominated": [
+  "frozen",
+  "closed_linear",
+  "hdc"
+ ],
+ "dominated": [
+  "finetune_full",
+  "finetune_readout",
+  "ewc",
+  "replay",
+  "hdc_bound"
+ ],
+ "prob_non_dominated": {
+  "frozen": 1.0,
+  "finetune_full": 0.0,
+  "finetune_readout": 0.0,
+  "ewc": 0.0,
+  "replay": 0.0001,
+  "closed_linear": 0.942,
+  "hdc": 1.0,
+  "hdc_bound": 0.0
+ },
+ "point": {
+  "frozen": {
+   "acc": 0.7084614166191646,
+   "bwt": 0.0,
+   "adapt_macs": 0.0
+  },
+  "finetune_full": {
+   "acc": 0.6840847373008728,
+   "bwt": -0.05813053150971731,
+   "adapt_macs": 236236308480.0
+  },
+  "finetune_readout": {
+   "acc": 0.7091175011226108,
+   "bwt": -0.012415366371472676,
+   "adapt_macs": 93362585600.0
+  },
+  "ewc": {
+   "acc": 0.6829936521393913,
+   "bwt": -0.05946139196554819,
+   "adapt_macs": 248671564224.0
+  },
+  "replay": {
+   "acc": 0.7185822904109954,
+   "bwt": -0.0348987231651942,
+   "adapt_macs": 472472616960.0
+  },
+  "closed_linear": {
+   "acc": 0.7221442844186511,
+   "bwt": 0.0,
+   "adapt_macs": 2035007021.0
+  },
+  "hdc": {
+   "acc": 0.7385813977037159,
+   "bwt": 0.0,
+   "adapt_macs": 19766259928.0
+  },
+  "hdc_bound": {
+   "acc": 0.7264385581016539,
+   "bwt": -0.007490134239196776,
+   "adapt_macs": 19766259928.0
+  }
+ }
+}

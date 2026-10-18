@@ -1,0 +1,30 @@
+{
+ "finetune_full": {
+  "n": 10,
+  "margin": 0.03,
+  "mean_diff": 0.05449666040284294,
+  "se": 0.0016719276249861736,
+  "ci90_low": 0.05143182825101991,
+  "ci90_high": 0.05756149255466597,
+  "p_noninferior": 1.166733376578577e-12,
+  "p_upper": 0.9999999308409034,
+  "p_equivalence": 0.9999999308409034,
+  "noninferior": true,
+  "equivalent": false,
+  "smallest_margin_noninferior": 0.0
+ },
+ "replay": {
+  "n": 10,
+  "margin": 0.03,
+  "mean_diff": 0.019999107292720288,
+  "se": 0.003342184376884652,
+  "ci90_low": 0.013872505888140107,
+  "ci90_high": 0.02612570869730047,
+  "p_noninferior": 5.772808953086184e-08,
+  "p_upper": 0.007571881150419593,
+  "p_equivalence": 0.007571881150419593,
+  "noninferior": true,
+  "equivalent": true,
+  "smallest_margin_noninferior": 0.0
+ }
+}
