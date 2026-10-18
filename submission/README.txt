@@ -24,7 +24,7 @@ Paths below are relative to the parent directory of this repository (the directo
 
   Options: --method {hdc,hdc_bound,closed_linear} (default hdc), --checkpoint, --selection, --out.
 
-2. Local evaluation on the held-in minival split (CPU)
+2. Local format check on the minival split (CPU). Minival is not a held-out split and its score is not reported in the paper.
 
   export CUDA_VISIBLE_DEVICES= EVAL_DATA_PATH=$PWD/falcon-challenge/data
   export PREDICTION_PATH_LOCAL=/tmp/pred.pkl GT_PATH=/tmp/gt.pkl
@@ -32,7 +32,7 @@ Paths below are relative to the parent directory of this repository (the directo
 
   Replace h1 with m1 or m2. Explicit files: --checkpoint PATH --corrections PATH.
 
-3. Build images (build context is the repository root)
+3. Build images. The images use pytorch/pytorch:2.1.2-cuda11.8-cudnn8-devel, numpy<2 and the falcon-challenge package from the clone; they are separate from the analysis environment (environment/requirements.lock).
 
   docker build -f falcon-hdc/submission/h1.Dockerfile -t hdc-h1 .
   docker build -f falcon-hdc/submission/m1.Dockerfile -t hdc-m1 .

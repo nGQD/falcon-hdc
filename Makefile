@@ -42,7 +42,7 @@ stats: main ablation budget baselines
 tables: stats
 	$(PY) code/tables.py
 
-figures: stats dose
+figures: stats dose theory
 	$(PY) code/figures.py
 
 tikz:
