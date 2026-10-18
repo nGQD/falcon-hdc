@@ -14,12 +14,12 @@ Files
   decoder.py           BCIDecoder implementation and evaluator entry point
   {h1,m1,m2}.Dockerfile, {h1,m1,m2}.Dockerfile.dockerignore
 
-Paths below are relative to the parent directory of this repository (the directory that contains mjcs/, falcon-challenge/ and .venv/).
+Paths below are relative to the parent directory of this repository (the directory that contains this repository cloned as falcon-hdc/, a clone of https://github.com/snel-repo/falcon-challenge as falcon-challenge/, and .venv/).
 
 1. Fit corrections (requires results/selection/{task}.json and results/checkpoints/{task}/outer/full_s101.pt)
 
   for t in h1 m1 m2; do
-    CUDA_VISIBLE_DEVICES= .venv/bin/python mjcs/submission/fit_corrections.py --task $t
+    CUDA_VISIBLE_DEVICES= .venv/bin/python falcon-hdc/submission/fit_corrections.py --task $t
   done
 
   Options: --method {hdc,hdc_bound,closed_linear} (default hdc), --checkpoint, --selection, --out.
@@ -28,21 +28,21 @@ Paths below are relative to the parent directory of this repository (the directo
 
   export CUDA_VISIBLE_DEVICES= EVAL_DATA_PATH=$PWD/falcon-challenge/data
   export PREDICTION_PATH_LOCAL=/tmp/pred.pkl GT_PATH=/tmp/gt.pkl
-  .venv/bin/python mjcs/submission/decoder.py --evaluation local --split h1 --phase minival --batch-size 1
+  .venv/bin/python falcon-hdc/submission/decoder.py --evaluation local --split h1 --phase minival --batch-size 1
 
   Replace h1 with m1 or m2. Explicit files: --checkpoint PATH --corrections PATH.
 
 3. Build images (build context is the repository root)
 
-  docker build -f mjcs/submission/h1.Dockerfile -t mjcs-h1 .
-  docker build -f mjcs/submission/m1.Dockerfile -t mjcs-m1 .
-  docker build -f mjcs/submission/m2.Dockerfile -t mjcs-m2 .
+  docker build -f falcon-hdc/submission/h1.Dockerfile -t hdc-h1 .
+  docker build -f falcon-hdc/submission/m1.Dockerfile -t hdc-m1 .
+  docker build -f falcon-hdc/submission/m2.Dockerfile -t hdc-m2 .
 
 4. Local container evaluation on minival
 
   docker run --rm -e EVALUATION_LOC=local -e PHASE=minival -e EVAL_DATA_PATH=/data \
-    -v $PWD/falcon-challenge/data:/data:ro mjcs-h1
+    -v $PWD/falcon-challenge/data:/data:ro hdc-h1
 
-  Use mjcs-m1 and mjcs-m2 for the other tracks.
+  Use hdc-m1 and hdc-m2 for the other tracks.
 
 5. Submission to EvalAI uses the images from step 3 with the standard evalai push workflow for each track.

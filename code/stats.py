@@ -320,7 +320,7 @@ def run(root, out, B=10000, seed=0, tasks=None):
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     data = load(root)
-    summary = dict(meta=dict(bootstrap_resamples=B, seed=seed, root=str(root)), tasks={})
+    summary = dict(meta=dict(bootstrap_resamples=B, seed=seed, root=str(Path(root).name)), tasks={})
     for task in sorted(data):
         if (tasks and task not in tasks) or "full" not in data[task]:
             continue

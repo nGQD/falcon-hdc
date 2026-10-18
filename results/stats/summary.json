@@ -2,7 +2,7 @@
  "meta": {
   "bootstrap_resamples": 10000,
   "seed": 0,
-  "root": "/home/user-ai/qd/falcon/mjcs/results"
+  "root": "results"
  },
  "tasks": {
   "h1": {

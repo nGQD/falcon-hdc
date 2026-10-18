@@ -18,10 +18,10 @@ COPY falcon-challenge/README.md ./falcon-challenge/
 RUN /venv/bin/pip install --no-cache-dir -e falcon-challenge \
     && /venv/bin/pip install --no-cache-dir "numpy<2" scipy
 
-COPY mjcs/code/model.py ./model.py
-COPY mjcs/submission/decoder.py ./decode.py
-COPY mjcs/submission/artifacts/h1/backbone.pt ./artifacts/h1/backbone.pt
-COPY mjcs/submission/artifacts/h1/corrections.pt ./artifacts/h1/corrections.pt
+COPY falcon-hdc/code/model.py ./model.py
+COPY falcon-hdc/submission/decoder.py ./decode.py
+COPY falcon-hdc/submission/artifacts/h1/backbone.pt ./artifacts/h1/backbone.pt
+COPY falcon-hdc/submission/artifacts/h1/corrections.pt ./artifacts/h1/corrections.pt
 
 ENV PREDICTION_PATH="/submission/submission.csv"
 ENV PREDICTION_PATH_LOCAL="/tmp/submission.pkl"
